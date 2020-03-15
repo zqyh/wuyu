@@ -15,4 +15,4 @@ spring:
 mybatis:
   ### 配置映射文件位置
   mapper-locations: classpath*:/mapper/*.Mapper.xml
-  type-aliases-package: com.whackon.itrip.pojo.entity
+  type-aliases-package: com.whackode.itrip.pojo.entity
