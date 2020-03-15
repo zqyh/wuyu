@@ -9,7 +9,7 @@
 
 	<!-- 配置父级依赖项目 itrip-parent [BEGIN] -->
 	<parent>
-		<groupId>com.whackon.itrip</groupId>
+		<groupId>com.whackode.itrip</groupId>
 		<artifactId>itrip-parent</artifactId>
 		<version>1.0.0</version>
 	</parent>
