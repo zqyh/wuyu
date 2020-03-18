@@ -46,8 +46,8 @@
 		<!-- 配置容联云组件所需要的依赖关系 [BEGIN] -->
 		<dependency>
 			<groupId>com.cloopen</groupId>
-			<artifactId>ccp_rest_sdk</artifactId>
-			<version>2.7</version>
+			<artifactId>java-sms-sdk</artifactId>
+			<version>1.0.1</version>
 		</dependency>
 		<!-- 配置容联云组件所需要的依赖关系 [END] -->
 

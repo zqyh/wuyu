@@ -1,11 +1,14 @@
 package com.whackode.itrip.controller;
 
 import com.whackode.itrip.base.controller.BaseController;
+import com.whackode.itrip.base.enums.ImageTypeEnum;
 import com.whackode.itrip.base.pojo.vo.ResponseDto;
 import com.whackode.itrip.pojo.entity.HotelRoom;
+import com.whackode.itrip.pojo.entity.ItripImage;
 import com.whackode.itrip.pojo.entity.LabelDic;
 import com.whackode.itrip.pojo.vo.SearchHotelRoomVO;
 import com.whackode.itrip.transport.HotelRoomTransport;
+import com.whackode.itrip.transport.ItripImageTransport;
 import com.whackode.itrip.transport.LabelDicTransport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,8 @@ public class HotelRoomController extends BaseController {
 	private HotelRoomTransport hotelRoomTransport;
 	@Autowired
 	private LabelDicTransport labelDicTransport;
+	@Autowired
+	private ItripImageTransport itripImageTransport;
 
 	/**
 	 * <b>查询酒店房间列表-此刻可以预定的房间列表</b>
@@ -61,5 +66,22 @@ public class HotelRoomController extends BaseController {
 		// 查询所有的床型
 		query.setParentId(1L);
 		return ResponseDto.success(labelDicTransport.getListByQuery(query));
+	}
+
+	/**
+	 * <b>根据targetId查询酒店房型图片(type=1)</b>
+	 * @param targetId
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping(value = "/getimg/{targetId}")
+	public ResponseDto<Object> getImgForHotel(@PathVariable("targetId") Long targetId) throws Exception {
+		ItripImage query = new ItripImage();
+		query.setTargetId(targetId);
+		query.setType(String.valueOf(ImageTypeEnum.IMAGE_TYPE_HOTEL.getCode()));
+
+		List<ItripImage> itripImageList = itripImageTransport.getItripImageListByQuery(query);
+
+		return ResponseDto.success(itripImageList);
 	}
 }

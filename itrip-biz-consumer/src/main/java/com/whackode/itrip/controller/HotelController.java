@@ -1,13 +1,16 @@
 package com.whackode.itrip.controller;
 
 import com.whackode.itrip.base.enums.AreaHotEnum;
+import com.whackode.itrip.base.enums.ImageTypeEnum;
 import com.whackode.itrip.base.pojo.vo.ResponseDto;
 import com.whackode.itrip.pojo.entity.AreaDic;
 import com.whackode.itrip.pojo.entity.Hotel;
+import com.whackode.itrip.pojo.entity.ItripImage;
 import com.whackode.itrip.pojo.entity.LabelDic;
 import com.whackode.itrip.pojo.vo.SearchDetailsHotelVO;
 import com.whackode.itrip.transport.AreaDicTransport;
 import com.whackode.itrip.transport.HotelTransport;
+import com.whackode.itrip.transport.ItripImageTransport;
 import com.whackode.itrip.transport.LabelDicTransport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +37,8 @@ public class HotelController {
 	private LabelDicTransport labelDicTransport;
 	@Autowired
 	private HotelTransport hotelTransport;
+	@Autowired
+	private ItripImageTransport itripImageTransport;
 
 	/**
 	 * <b>查询热门城市</b>
@@ -127,5 +132,26 @@ public class HotelController {
 	public ResponseDto<Object> queryHotelPolicy(@PathVariable("hotelId") Long hotelId) throws Exception {
 		Hotel hotel = hotelTransport.getHotelById(hotelId);
 		return ResponseDto.success(hotel.getHotelPolicy());
+	}
+
+	/**
+	 * <b>根据targetId查询酒店图片(type=0)</b>
+	 * @param targetId
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping(value = "/getimg/{targetId}")
+	public ResponseDto<Object> getImgForHotel(@PathVariable("targetId") Long targetId) throws Exception {
+		ItripImage query = new ItripImage();
+		query.setTargetId(targetId);
+		query.setType(String.valueOf(ImageTypeEnum.IMAGE_TYPE_HOTEL.getCode()));
+
+		List<ItripImage> itripImageList = itripImageTransport.getItripImageListByQuery(query);
+
+		if (itripImageList.size() > 0) {
+			return ResponseDto.success(itripImageList.get(0));
+		}
+
+		return ResponseDto.success(new ItripImage());
 	}
 }
