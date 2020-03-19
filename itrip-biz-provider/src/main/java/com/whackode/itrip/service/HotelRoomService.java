@@ -2,6 +2,7 @@ package com.whackode.itrip.service;
 
 import com.whackode.itrip.pojo.entity.HotelRoom;
 import com.whackode.itrip.pojo.vo.SearchHotelRoomVO;
+import com.whackode.itrip.pojo.vo.ValidateRoomStoreVO;
 
 import java.util.List;
 
@@ -19,4 +20,20 @@ public interface HotelRoomService {
 	 * @throws Exception
 	 */
 	List<HotelRoom> queryHotelRoomByHotel(SearchHotelRoomVO searchHotelRoomVO) throws Exception;
+
+	/**
+	 * <b>根据主键查询房间信息</b>
+	 * @param roomId
+	 * @return
+	 * @throws Exception
+	 */
+	HotelRoom getHotelRoomById(Long roomId) throws Exception;
+
+	/**
+	 * <b>根据查询获得房间数量</b>
+	 * @param validateRoomStoreVO
+	 * @return
+	 * @throws Exception
+	 */
+	int getHotelRoomStoreByDate(ValidateRoomStoreVO validateRoomStoreVO) throws Exception;
 }
