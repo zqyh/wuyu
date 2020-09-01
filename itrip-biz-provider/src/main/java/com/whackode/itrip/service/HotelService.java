@@ -1,8 +1,9 @@
 package com.whackode.itrip.service;
 
 import com.whackode.itrip.pojo.entity.Hotel;
-import com.whackode.itrip.pojo.vo.HotelVO;
 import com.whackode.itrip.pojo.vo.SearchHotCityVO;
+import com.whackode.itrip.pojo.vo.SearchHotelVO;
+import com.whackode.itrip.util.Page;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface HotelService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<HotelVO> searchItripHotelListByHotCity(SearchHotCityVO queryVO) throws Exception;
+	List<SearchHotelVO> searchItripHotelListByHotCity(SearchHotCityVO queryVO) throws Exception;
 
 	/**
 	 * <b>根据主键查询对象信息</b>
@@ -27,4 +28,12 @@ public interface HotelService {
 	 * @return
 	 */
 	Hotel getHotelById(Long hotelId) throws Exception;
+
+	/***
+	 * 根据多个条件查询酒店分页
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public Page<SearchHotelVO> searchItripHotelPage(SearchHotelVO vo) throws Exception;
 }

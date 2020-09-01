@@ -1,6 +1,8 @@
 package com.whackode.itrip.dao;
 
 import com.whackode.itrip.pojo.entity.HotelOrder;
+import com.whackode.itrip.pojo.vo.ListHotelOrderVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -45,4 +47,28 @@ public interface HotelOrderDao {
 	 * @throws Exception
 	 */
 	int update(HotelOrder hotelOrder) throws Exception;
+
+	/***
+	 * 获取订单数量
+	 * @param param
+	 * @return
+	 * @throws Exception
+	 */
+	public Integer getOrderCountByMap(Map<String,Object> param)throws Exception;
+
+	/**
+	 * 获取订单列表
+	 * @param param
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ListHotelOrderVO> getOrderListByMap(Map<String,Object> param)throws Exception;
+
+	/**
+	 * 根据订单ID获取订单信息
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public HotelOrder getHotelOrderById(@Param(value = "id") Long id)throws Exception;
 }

@@ -1,6 +1,7 @@
 package com.whackode.itrip.pojo.vo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @version 1.0.0
  * @since 1.0.0
  */
-public class RoomStoreVO implements Serializable {
+public class 	RoomStoreVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long hotelId;
 	private Long roomId;
@@ -18,7 +19,7 @@ public class RoomStoreVO implements Serializable {
 	private Integer count;
 	private String hotelName;
 	private Integer store;
-	private Double price;
+	private BigDecimal price;
 
 	public Long getHotelId() {
 		return hotelId;
@@ -76,11 +77,11 @@ public class RoomStoreVO implements Serializable {
 		this.store = store;
 	}
 
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 }

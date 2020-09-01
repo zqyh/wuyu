@@ -3,18 +3,14 @@ package com.whackode.itrip.service.impl;
 import com.whackode.itrip.dao.UserDao;
 import com.whackode.itrip.pojo.entity.User;
 import com.whackode.itrip.service.UserService;
-import com.whackode.itrip.util.ActiveCodeUtil;
-import com.whackode.itrip.util.MailSenderUtil;
-import com.whackode.itrip.util.RegValidationUtil;
-import com.whackode.itrip.util.SmsSenderUtil;
+import com.whackode.itrip.util.*;
+import com.whackode.itrip.util.constant.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * <b>爱旅行-用户信息业务层接口实现类</b>
@@ -30,9 +26,11 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private MailSenderUtil mailSenderUtil;
 	@Autowired
-	private SmsSenderUtil smsSenderUtil;
+	//private SmsSenderUtil smsSenderUtil;
+	private SMSUtils smsUtils;
 	@Autowired
-	private StringRedisTemplate redisTemplate;
+	//private StringRedisTemplate redisTemplate;
+	private RedisUtils redisUtils;
 
 	/**
 	 * <b>根据查询对象查询用户信息列表</b>
@@ -60,16 +58,18 @@ public class UserServiceImpl implements UserService {
 			// 产生激活码，将激活码保存到Redis中
 			String activeCode = ActiveCodeUtil.createActiveCode();
 			// 使用StringRedisTemplate将验证码进行保存，key为用户的email地址，value就是激活码
-			redisTemplate.opsForValue().set(user.getUserCode(), activeCode);
+			//redisTemplate.opsForValue().set(user.getUserCode(), activeCode);
+			redisUtils.putValue(user.getUserCode(), activeCode, Constants.Duration.HALF_HOUR_INT);
 			// 设置存储于redis中的数据存活时间
-			redisTemplate.expire(user.getUserCode(), 30, TimeUnit.MINUTES);
+			//redisTemplate.expire(user.getUserCode(), 30, TimeUnit.MINUTES);/
 			// 判断此时用户注册使用的是手机号码还是邮箱地址
 			if (RegValidationUtil.validateEmail(user.getUserCode())) {
 				// 通过发送邮件，将激活码发送给用户
 				return mailSenderUtil.sendActiveCodeMail(user.getUserCode(), activeCode);
 			} else if (RegValidationUtil.validateCellphone(user.getUserCode())) {
 				// 使用手机号码注册，将激活码发送到对方的手机中
-				return smsSenderUtil.sendSms(user.getUserCode(), activeCode);
+				//return smsSenderUtil.sendSms(user.getUserCode(), activeCode);
+				return  smsUtils.sendTencentSMS(user.getUserCode(),activeCode,"30");
 			}
 
 		}
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	public String getActiveCodeByUserCode(String userCode) throws Exception {
 		// 通过Redis查询对应的激活码
-		String activeCode = redisTemplate.opsForValue().get(userCode);
+		String activeCode = redisUtils.getValue(userCode);//redisTemplate.opsForValue().get(userCode);
 		return activeCode;
 	}
 

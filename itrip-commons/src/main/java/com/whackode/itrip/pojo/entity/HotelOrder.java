@@ -1,6 +1,7 @@
 package com.whackode.itrip.pojo.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class HotelOrder implements Serializable {
 	private Date checkOutDate;
 	private Integer orderStatus;
 	private List<Integer> orderStatusList;          // 当需要查询多个状态的时候，使用
-	private Double payAmount;
+	private BigDecimal payAmount;
 	private Integer payType;
 	private String noticePhone;
 	private String noticeEmail;
@@ -153,11 +154,11 @@ public class HotelOrder implements Serializable {
 		this.orderStatusList = orderStatusList;
 	}
 
-	public Double getPayAmount() {
+	public BigDecimal getPayAmount() {
 		return payAmount;
 	}
 
-	public void setPayAmount(Double payAmount) {
+	public void setPayAmount(BigDecimal payAmount) {
 		this.payAmount = payAmount;
 	}
 

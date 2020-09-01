@@ -1,8 +1,9 @@
 package com.whackode.itrip.transport;
 
 import com.whackode.itrip.pojo.entity.Hotel;
-import com.whackode.itrip.pojo.vo.HotelVO;
 import com.whackode.itrip.pojo.vo.SearchHotCityVO;
+import com.whackode.itrip.pojo.vo.SearchHotelVO;
+import com.whackode.itrip.util.Page;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public interface HotelTransport {
 	 * @throws Exception
 	 */
 	@PostMapping(value = "/searchItripHotelListByHotCity")
-	List<HotelVO> searchItripHotelListByHotCity(@RequestBody SearchHotCityVO queryVO) throws Exception;
+	List<SearchHotelVO> searchItripHotelListByHotCity(@RequestBody SearchHotCityVO queryVO) throws Exception;
 
 	/**
 	 * <b>根据主键查询对象信息</b>
@@ -38,4 +39,7 @@ public interface HotelTransport {
 	 */
 	@PostMapping(value = "/id")
 	Hotel getHotelById(@RequestParam Long hotelId) throws Exception;
+
+	@PostMapping(value = "/searchItripHotelPage")
+	public Page<SearchHotelVO> searchItripHotelPage(@RequestBody SearchHotelVO vo)throws Exception;
 }

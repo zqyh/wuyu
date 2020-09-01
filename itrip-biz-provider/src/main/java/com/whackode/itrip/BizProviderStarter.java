@@ -11,7 +11,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * @version 1.0.0
  * @since 1.0.0
  */
-@MapperScan("com.whackode.itrip.dao")
+@MapperScan({"com.whackode.itrip.dao","com.whackode.itrip.util"})
 @EnableEurekaClient
 @SpringBootApplication
 public class BizProviderStarter {

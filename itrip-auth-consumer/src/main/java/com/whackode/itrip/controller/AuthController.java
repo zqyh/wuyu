@@ -4,16 +4,18 @@ import com.whackode.itrip.base.controller.BaseController;
 import com.whackode.itrip.base.enums.UserActivatedEnum;
 import com.whackode.itrip.base.enums.UserTypeEnum;
 import com.whackode.itrip.base.pojo.vo.ResponseDto;
+import com.whackode.itrip.pojo.dto.Dto;
 import com.whackode.itrip.pojo.entity.User;
+import com.whackode.itrip.pojo.vo.TokenVO;
 import com.whackode.itrip.pojo.vo.UserVO;
 import com.whackode.itrip.transport.UserTransport;
-import com.whackode.itrip.util.JWTUtil;
-import com.whackode.itrip.util.MD5Util;
-import com.whackode.itrip.util.RegValidationUtil;
+import com.whackode.itrip.util.*;
+import com.whackode.itrip.util.constant.Constants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -27,6 +29,10 @@ import java.util.List;
 public class AuthController extends BaseController {
 	@Autowired
 	private UserTransport userTransport;
+	@Autowired
+	private TokenUtil tokenUtil;
+	@Autowired
+    private RedisUtils redisUtils;
 
 	/**
 	 * <b>用户名注册验证-电子邮件</b>
@@ -190,8 +196,8 @@ public class AuthController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@PostMapping(value = "/dologin")
-	public ResponseDto<Object> loginUser(String name, String password) throws Exception {
+	@PostMapping(value = "/dologin",produces= "application/json")
+	public Dto<Object> loginUser(String name, String password) throws Exception {
 		if (name != null && !"".equals(name.trim())
 				&& password != null && !"".equals(password.trim())) {
 			// 通过登陆用户名查找相关信息，在比较密码是否相同
@@ -204,26 +210,47 @@ public class AuthController extends BaseController {
 				// 比较密码是否相同
 				if (user.getUserPassword().equals(MD5Util.encrypt(password))) {
 					if (user.getActivated() == UserActivatedEnum.USER_ACTIVATED_YES.getCode()) {
-						// 登陆成功，按照相应的技术，生成一个Token令牌，以Cookie形式交给浏览器，
-						// 每当浏览器在访问其他服务器的时候，都会携带该信息，如果需要校验该用户是否登陆，
-						// 只需要校验该Token是否是按照系统规则生成的即可。
-						// 在Java当中，Token技术使用了JWT（Java Web Token）来完成
-						// 使用当前登陆用户的id生成Token信息
-						String token = JWTUtil.createToken(user.getId());
-						// 将Token随着相应交给浏览器
-						response.setHeader("token", token);
-						return ResponseDto.success(token);
+						//生成token
+						String token = tokenUtil.generateToken(request.getHeader("user-agent"), user);//JWTUtil.createToken(user.getId());
+						//存储token到redis
+						tokenUtil.save(token,user);
+
+                        TokenVO tokenVO=new TokenVO(token,user,
+                                Calendar.getInstance().getTimeInMillis()+Constants.Token.SESSION_TIMEOUT*1000,
+                                Calendar.getInstance().getTimeInMillis());
+
+						return DtoUtil.returnDataSuccess(tokenVO);
 					} else {
-						return ResponseDto.failure("该用户未激活");
+						return DtoUtil.returnFail("该用户未激活",Constants.ErrorCode.AUTH_ACTIVATE_NO);
 					}
 				} else {
-					return ResponseDto.failure("登陆密码错误");
+					return DtoUtil.returnFail("登陆密码错误",Constants.ErrorCode.AUTH_PARAMETER_ERROR);
 				}
 			} else {
-				return ResponseDto.failure("该用户未注册");
+				return DtoUtil.returnFail("该用户未注册",Constants.ErrorCode.AUTH_USER_REG_NO);
 			}
 		} else {
-			return ResponseDto.failure("请填写登陆信息");
+			return DtoUtil.returnFail("请填写登陆信息",Constants.ErrorCode.AUTH_USER_INCOMPLETE);
 		}
+	}
+
+	@GetMapping(value="/logout",headers="token", produces = "application/json")
+	public Dto logout(){
+        String tokenString = request.getHeader("token");
+
+		//验证token
+		if(!tokenUtil.validate(request.getHeader("user-agent"), tokenString)) {
+            return DtoUtil.returnFail("token无效", Constants.ErrorCode.AUTH_TOKEN_INVALID);
+        }
+
+        //删除token和信息
+        try {
+            tokenUtil.delete(tokenString);
+            return DtoUtil.returnSuccess("注销成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return DtoUtil.returnFail("注销失败", Constants.ErrorCode.AUTH_UNKNOWN);
+        }
+
 	}
 }

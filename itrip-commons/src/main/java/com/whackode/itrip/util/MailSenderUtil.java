@@ -30,10 +30,11 @@ public class MailSenderUtil {
 			// 可以使用带有HTML样式的邮件
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
+
 			// 设置发件人邮箱地址
-			messageHelper.setFrom("dk0j190901q@163.com");
+			messageHelper.setFrom("1156000205@qq.com");
 			// 设置抄送人地址
-			messageHelper.setCc("dk0j190901q@163.com");
+			messageHelper.setCc("1156000205@qq.com");
 			// 设置收件人地址
 			messageHelper.setTo(email);
 			// 设置邮件主题

@@ -1,7 +1,9 @@
 package com.whackode.itrip.pojo.vo;
 
 import org.apache.solr.client.solrj.beans.Field;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <b>Solr搜索结果视图</b>
@@ -9,7 +11,7 @@ import java.io.Serializable;
  * @version 4.0.0
  * @since 4.0.0
  */
-public class HotelVO implements Serializable {
+public class SearchHotelVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Field("id")
@@ -57,9 +59,22 @@ public class HotelVO implements Serializable {
     private Integer commentCount;
     @Field("avgScore")
     private Double avgScore;
-
     @Field("imgUrl")
     private String imgUrl;
+
+    private String destination;
+
+    private String keywords;
+    private String tradeAreaIds;
+    private String featureIds;
+    private String ascSort;
+    private String  descSort;
+    private Date checkInDate;
+    private Date checkOutDate;
+
+    private Integer pageSize;
+
+    private Integer pageNo;
 
 
     public Double getMaxPrice() {
@@ -199,59 +214,87 @@ public class HotelVO implements Serializable {
         this.avgScore = avgScore;
     }
 
-    //git 你太厉害了
-//全属性 留作备份
-//    @Field("id")
-//    private Long id;
-//    @Field("hotelName")
-//    private String hotelName;
-//    private Long countryId;
-//    private Long provinceId;
-//    private Long cityId;
-//    @Field("address")
-//    private String address;
-//    private String details;
-//    private String facilities;
-//    private String hotelPolicy;
-//    private Integer hotelType;
-//    @Field("hotelLevel")
-//    private Integer hotelLevel;
-//    private Integer isGroupPurchase;
-//    @Field("redundantCityName")
-//    private String redundantCityName;
-//    @Field("redundantProvinceName")
-//    private String redundantProvinceName;
-//    @Field("redundantCountryName")
-//    private String redundantCountryName;
-//    @Field("redundantHotelStore")
-//    private Integer redundantHotelStore;
-//    private Date creationDate;
-//    private Long createdBy;
-//    private Date modifyDate;
-//    private Long modifiedBy;
-//    @Field("maxPrice")
-//    private Double maxPrice;
-//    @Field("minPrice")
-//    private Double minPrice;
-//    @Field("isOkCount")
-//    private Integer isOkCount;
-//    private String extendPropertyIds;
-//    @Field("extendPropertyNames")
-//    private String extendPropertyNames;
-//    @Field("pics")
-//    private String pics;
-//    private String tradingAreaIds;
-//    @Field("tradingAreaNames")
-//    private String tradingAreaNames;
-//    @Field("commentCount")
-//    private Integer commentCount;
-//    private String featureIds;
-//    @Field("featureNames")
-//    private String featureNames;
-//    @Field("imgUrl")
-//    private String imgUrl;
-//    @Field("extendPropertyPics")
-//    private String extendPropertyPics;
-//    @Field("avgScore")
-//    private Double avgScore;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public String getTradeAreaIds() {
+        return tradeAreaIds;
+    }
+
+    public void setTradeAreaIds(String tradeAreaIds) {
+        this.tradeAreaIds = tradeAreaIds;
+    }
+
+    public String getFeatureIds() {
+        return featureIds;
+    }
+
+    public void setFeatureIds(String featureIds) {
+        this.featureIds = featureIds;
+    }
+
+    public String getAscSort() {
+        return ascSort;
+    }
+
+    public void setAscSort(String ascSort) {
+        this.ascSort = ascSort;
+    }
+
+    public String getDescSort() {
+        return descSort;
+    }
+
+    public void setDescSort(String descSort) {
+        this.descSort = descSort;
+    }
+
+    public Date getCheckInDate() {
+        return checkInDate;
+    }
+
+    public void setCheckInDate(Date checkInDate) {
+        this.checkInDate = checkInDate;
+    }
+
+    public Date getCheckOutDate() {
+        return checkOutDate;
+    }
+
+    public void setCheckOutDate(Date checkOutDate) {
+        this.checkOutDate = checkOutDate;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(Integer pageNo) {
+        this.pageNo = pageNo;
+    }
 }

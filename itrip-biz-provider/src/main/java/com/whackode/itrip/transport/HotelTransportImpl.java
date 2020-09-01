@@ -1,9 +1,10 @@
 package com.whackode.itrip.transport;
 
 import com.whackode.itrip.pojo.entity.Hotel;
-import com.whackode.itrip.pojo.vo.HotelVO;
 import com.whackode.itrip.pojo.vo.SearchHotCityVO;
+import com.whackode.itrip.pojo.vo.SearchHotelVO;
 import com.whackode.itrip.service.HotelService;
+import com.whackode.itrip.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class HotelTransportImpl implements HotelTransport {
 	 * @throws Exception
 	 */
 	@PostMapping(value = "/searchItripHotelListByHotCity")
-	public List<HotelVO> searchItripHotelListByHotCity(@RequestBody SearchHotCityVO queryVO)
+	public List<SearchHotelVO> searchItripHotelListByHotCity(@RequestBody SearchHotCityVO queryVO)
 			throws Exception {
 		return hotelService.searchItripHotelListByHotCity(queryVO);
 	}
@@ -42,5 +43,11 @@ public class HotelTransportImpl implements HotelTransport {
 	@PostMapping(value = "/id")
 	public Hotel getHotelById(@RequestParam Long hotelId) throws Exception {
 		return hotelService.getHotelById(hotelId);
+	}
+
+	@PostMapping(value = "/searchItripHotelPage")
+	@Override
+	public Page<SearchHotelVO> searchItripHotelPage(@RequestBody SearchHotelVO vo) throws Exception {
+		return hotelService.searchItripHotelPage(vo);
 	}
 }

@@ -67,7 +67,7 @@
 		<id property="id" javaType="java.lang.Long" column="id"/>
 		<result property="hotelId" javaType="java.lang.Long" column="hotelId"/>
 		<result property="roomTitle" javaType="java.lang.String" column="roomTitle"/>
-		<result property="roomPrice" javaType="java.lang.Double" column="roomPrice"/>
+		<result property="roomPrice" javaType="java.math.BigDecimal" column="roomPrice"/>
 		<result property="roomBedTypeId" javaType="java.lang.Long" column="roomBedTypeId"/>
 		<result property="isHavingBreakfast" javaType="java.lang.Integer" column="isHavingBreakfast"/>
 		<result property="payType" javaType="java.lang.Integer" column="payType"/>

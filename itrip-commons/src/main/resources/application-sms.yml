@@ -1,0 +1,9 @@
+#腾讯云短信
+sms:
+  tencent:
+    secretId: AKIDQs65nGXN4GCuXtz93lL3VgkhCRjmhb4N
+    secretKey: LSTKy1oVysruiStzzqSodEbhcZyCSTDi
+    endpoint: sms.tencentcloudapi.com
+    appid: 1400409882
+    sign: 郝敏一工作信息
+    templateID: 686278

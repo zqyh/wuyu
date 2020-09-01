@@ -82,6 +82,11 @@
 				<if test="invoiceHead != null">invoiceHead, </if>
 				<if test="linkUserName != null">linkUserName, </if>
 				<if test="bookType != null">bookType, </if>
+
+				<if test="creationDate != null">creationDate, </if>
+				<if test="createdBy != null">createdBy, </if>
+				<if test="modifyDate != null">modifyDate, </if>
+				<if test="modifiedBy != null">modifiedBy, </if>
 			</trim>
 		) values(
 			<trim suffixOverrides=",">
@@ -108,6 +113,11 @@
 				<if test="invoiceHead != null">#{invoiceHead}, </if>
 				<if test="linkUserName != null">#{linkUserName}, </if>
 				<if test="bookType != null">#{bookType}, </if>
+
+				<if test="creationDate != null">#{creationDate}, </if>
+				<if test="createdBy != null">#{createdBy}, </if>
+				<if test="modifyDate != null">#{modifyDate}, </if>
+				<if test="modifiedBy != null">#{modifiedBy}, </if>
 			</trim>
 		)
 	</insert>
@@ -161,7 +171,7 @@
 		<result property="checkInDate" javaType="java.util.Date" column="checkInDate"/>
 		<result property="checkOutDate" javaType="java.util.Date" column="checkOutDate"/>
 		<result property="orderStatus" javaType="java.lang.Integer" column="orderStatus"/>
-		<result property="payAmount" javaType="java.lang.Double" column="payAmount"/>
+		<result property="payAmount" javaType="java.math.BigDecimal" column="payAmount"/>
 		<result property="payType" javaType="java.lang.Integer" column="payType"/>
 		<result property="noticePhone" javaType="java.lang.String" column="noticePhone"/>
 		<result property="noticeEmail" javaType="java.lang.String" column="noticeEmail"/>
@@ -176,4 +186,106 @@
 		<result property="modifyDate" javaType="java.util.Date" column="modifyDate"/>
 		<result property="modifiedBy" javaType="java.lang.Long" column="modifiedBy"/>
 	</resultMap>
+
+	<select id="getOrderCountByMap" resultType="Integer"  parameterType="java.util.Map">
+		select count(*) from itrip_hotel_order
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="id != null and id!=''">
+				and id=#{id}
+			</if>
+			<if test="userId != null and userId!=''">
+				and userId=#{userId}
+			</if>
+			<if test="orderType != null">
+				and orderType=#{orderType}
+			</if>
+			<if test="orderNo != null and orderNo!=''">
+				and orderNo like CONCAT ('%',#{orderNo},'%')
+			</if>
+			<if test="hotelId != null and hotelId!=''">
+				and hotelId=#{hotelId}
+			</if>
+			<if test="hotelName != null and hotelName!=''">
+				and hotelName=#{hotelName}
+			</if>
+			<if test="checkInDate != null and checkInDate!=''">
+				and checkInDate=#{checkInDate}
+			</if>
+			<if test="orderStatus != null">
+				and orderStatus=#{orderStatus}
+			</if>
+			<if test="payAmount != null and payAmount!=''">
+				and payAmount=#{payAmount}
+			</if>
+			<if test="linkUserName != null and linkUserName != ''">
+				and linkUserName like CONCAT ('%',#{linkUserName},'%')
+			</if>
+			<if test="startDate != null and startDate!=''">
+				and creationDate &gt;= #{startDate}
+			</if>
+			<if test="endDate != null and endDate!=''">
+				and creationDate &lt;= #{endDate}
+			</if>
+		</trim>
+	</select>
+
+	<select id="getOrderListByMap" resultType="com.whackode.itrip.pojo.vo.ListHotelOrderVO" parameterType="java.util.Map">
+		select
+		id as id,
+		orderType as orderType,
+		orderNo as orderNo,
+		hotelId as hotelId,
+		hotelName as hotelName,
+		orderStatus as orderStatus,
+		count as count,
+		checkInDate as checkInDate,
+		payAmount as payAmount,
+		payType as payType,
+		linkUserName as linkUserName,
+		creationDate as creationDate
+		from itrip_hotel_order
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="id != null and id!=''">
+				and id=#{id}
+			</if>
+			<if test="userId != null and userId!=''">
+				and userId=#{userId}
+			</if>
+			<if test="orderType != null">
+				and orderType=#{orderType}
+			</if>
+			<if test="orderNo != null and orderNo!=''">
+				and orderNo like CONCAT ('%',#{orderNo},'%')
+			</if>
+			<if test="hotelId != null and hotelId!=''">
+				and hotelId=#{hotelId}
+			</if>
+			<if test="hotelName != null and hotelName!=''">
+				and hotelName=#{hotelName}
+			</if>
+			<if test="checkInDate != null and checkInDate!=''">
+				and checkInDate=#{checkInDate}
+			</if>
+			<if test="orderStatus != null">
+				and orderStatus=#{orderStatus}
+			</if>
+			<if test="payAmount != null and payAmount!=''">
+				and payAmount=#{payAmount}
+			</if>
+			<if test="linkUserName != null and linkUserName != ''">
+				and linkUserName like CONCAT ('%',#{linkUserName},'%')
+			</if>
+			<if test="startDate != null and startDate!=''">
+				and creationDate &gt;= #{startDate}
+			</if>
+			<if test="endDate != null and endDate!=''">
+				and creationDate &lt;= #{endDate}
+			</if>
+		</trim>
+		order by creationDate desc
+		<if test="beginPos != null and pageSize != null  and pageSize !='' ">
+			limit #{beginPos},#{pageSize}
+		</if>
+	</select>
+
 </mapper>

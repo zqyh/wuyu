@@ -19,6 +19,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<!--腾讯云短信依赖-->
+		<tencent.sms.version>3.1.111</tencent.sms.version>
 	</properties>
 
 	<dependencies>
@@ -51,6 +53,28 @@
 		</dependency>
 		<!-- 配置容联云组件所需要的依赖关系 [END] -->
 
+		<!--腾讯短信依赖开始-->
+		<dependency>
+			<groupId>com.tencentcloudapi</groupId>
+			<artifactId>tencentcloud-sdk-java</artifactId>
+			<version>${tencent.sms.version}</version>
+		</dependency>
+		<!--腾讯短信依赖结束-->
+
+		<!--redis依赖开始-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<!--redis依赖结束-->
+
+		<!-- 阿里巴巴fastjson-->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.47</version>
+		</dependency>
+
 		<!-- 配置 JWT 所需要的依赖关系 [BEGIN] -->
 		<dependency>
 			<groupId>com.auth0</groupId>
@@ -65,6 +89,12 @@
 			<artifactId>spring-boot-starter-data-solr</artifactId>
 		</dependency>
 		<!-- 配置Spring Boot Solr的依赖关系 [END] -->
+
+		<dependency>
+			<groupId>cz.mallat.uasparser</groupId>
+			<artifactId>uasparser</artifactId>
+			<version>0.6.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
